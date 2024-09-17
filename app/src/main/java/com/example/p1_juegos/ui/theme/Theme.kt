@@ -15,15 +15,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
+    primary = blue2,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = blue2,
+    secondary = blue1,
+    tertiary = pink,
+    background = beige1
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -40,7 +42,7 @@ private val LightColorScheme = lightColorScheme(
 fun P1_JuegosTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -55,7 +57,7 @@ fun P1_JuegosTheme(
 
     val view = LocalView.current
     val window = (view.context as Activity).window
-    window.statusBarColor = Color(59,126,160).toArgb()
+    window.statusBarColor = blue2.toArgb()
 
     MaterialTheme(
         colorScheme = colorScheme,

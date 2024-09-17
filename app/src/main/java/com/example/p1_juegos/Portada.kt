@@ -10,18 +10,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import com.example.p1_juegos.ui.theme.FontTittle
 import com.example.p1_juegos.ui.theme.Pink40
 
 @Composable
-fun Portada(modifier: Modifier = Modifier) {
+fun Portada(navController: NavHostController) {
     val configuracion = LocalConfiguration.current
 
     when (configuracion.orientation) {
@@ -33,9 +38,10 @@ fun Portada(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = "Play Juegos",
-                    modifier = modifier,
+                    modifier = Modifier,
                     fontSize = 40.sp,
-                    fontStyle = FontStyle.Italic
+                    fontStyle = FontStyle.Italic,
+                    fontFamily = FontTittle
                 )
 
                 Spacer(
@@ -46,7 +52,7 @@ fun Portada(modifier: Modifier = Modifier) {
                     Column {
                         Button(
                             onClick = {},
-                            modifier = modifier
+                            modifier = Modifier
                                 .width(180.dp),
                             colors = ButtonDefaults.buttonColors(Pink40)
                         ) {
@@ -57,8 +63,8 @@ fun Portada(modifier: Modifier = Modifier) {
                         }
 
                         Button(
-                            onClick = {},
-                            modifier = modifier
+                            onClick = {navController.navigate("NewPlayer")},
+                            modifier = Modifier
                                 .width(180.dp)
                         ) {
                             Text(
@@ -75,7 +81,7 @@ fun Portada(modifier: Modifier = Modifier) {
                     Column {
                         Button(
                             onClick = {},
-                            modifier = modifier
+                            modifier = Modifier
                                 .width(180.dp)
                         ) {
                             Text(
@@ -86,7 +92,7 @@ fun Portada(modifier: Modifier = Modifier) {
 
                         Button(
                             onClick = {},
-                            modifier = modifier
+                            modifier = Modifier
                                 .width(180.dp)
                         ) {
                             Text(
@@ -101,12 +107,13 @@ fun Portada(modifier: Modifier = Modifier) {
         Column (
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             Text(
                 text = "Play Juegos",
                 fontSize = 40.sp,
-                fontStyle = FontStyle.Italic
+                fontStyle = FontStyle.Italic,
+                fontFamily = FontTittle
             )
 
             Spacer(
@@ -115,9 +122,9 @@ fun Portada(modifier: Modifier = Modifier) {
 
             Button(
                 onClick = {},
-                modifier = modifier
+                modifier = Modifier
                     .width(180.dp),
-                colors = ButtonDefaults.buttonColors(Pink40)
+                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary)
             ) {
                 Text(
                     text = "Play",
@@ -126,8 +133,8 @@ fun Portada(modifier: Modifier = Modifier) {
             }
 
             Button(
-                onClick = {},
-                modifier = modifier
+                onClick = {navController.navigate("NewPlayer")},
+                modifier = Modifier
                     .width(180.dp)
             ) {
                 Text(
@@ -138,7 +145,7 @@ fun Portada(modifier: Modifier = Modifier) {
 
             Button(
                 onClick = {},
-                modifier = modifier
+                modifier = Modifier
                     .width(180.dp)
             ) {
                 Text(
@@ -149,7 +156,7 @@ fun Portada(modifier: Modifier = Modifier) {
 
             Button(
                 onClick = {},
-                modifier = modifier
+                modifier = Modifier
                     .width(180.dp)
             ) {
                 Text(
