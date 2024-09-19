@@ -24,6 +24,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(navController = navController, startDestination = "Portada") {
                         composable("Portada") {Portada(navController)}
                         composable("NewPlayer") {NewPlayer(Modifier.padding(innerPadding))}
+                        composable("Preferences") { Preferences()}
                     }
 
 //                    NewPlayer(

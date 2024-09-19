@@ -80,7 +80,7 @@ fun Portada(navController: NavHostController) {
 
                     Column {
                         Button(
-                            onClick = {},
+                            onClick = {navController.navigate("Preferences")},
                             modifier = Modifier
                                 .width(180.dp)
                         ) {
@@ -144,7 +144,7 @@ fun Portada(navController: NavHostController) {
             }
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate("Preferences")},
                 modifier = Modifier
                     .width(180.dp)
             ) {
