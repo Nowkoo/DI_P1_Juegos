@@ -1,7 +1,6 @@
 package com.example.p1_juegos
 
 import android.content.Context
-import android.graphics.fonts.FontStyle
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,9 +15,13 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ColorScheme
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
@@ -26,11 +29,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -40,9 +45,11 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun Preferences(modifier: Modifier = Modifier) {
     var sliderPosition by remember { mutableFloatStateOf(0f) }
-    val radioOptions = listOf("Teamfight Tactics", "Project Zomboid", "Twilight Struggle", "Civilizations VII")
+    val radioOptions = listOf("Angry Birds", "Dragon Fly", "Hill Climbing Racing", "Pocket Soccer", "Radiant Defense", "Ninja Jump", "Air Control")
+    val chipLabels = listOf("PS4", "XBOX", "3DS", "WII", "WIIU")
     var selectedOption by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
+    var selectedStar by remember { mutableIntStateOf(0) }
 
     Box(
         modifier.fillMaxSize()
@@ -76,6 +83,16 @@ fun Preferences(modifier: Modifier = Modifier) {
                 sliderPosition,
                 onValueChange = { sliderPosition = it }
             )
+
+            stars(
+                selectedStar,
+                onRatingChange = {newRating -> selectedStar = newRating.toInt() }
+            )
+
+            Row() {
+                ChipArray(chipLabels, context)
+            }
+
         }
 
         FloatingActionButton(
@@ -89,8 +106,30 @@ fun Preferences(modifier: Modifier = Modifier) {
         ) {
             Icon(Icons.Filled.Add, "Floating action button.")
         }
-
     }
+}
+
+@Composable
+private fun stars(selectedStar: Int, onRatingChange: (Float) -> Unit) {
+
+    Row () {
+        for (index in 1..10) {
+            IconButton(
+                onClick = { onRatingChange(index.toFloat()) },
+                Modifier.size(35.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Star,
+                    contentDescription = "star",
+                    tint = (
+                            if (index <= selectedStar) MaterialTheme.colorScheme.tertiary
+                            else Color.Gray
+                    ),
+                )
+            }
+        }
+    }
+
 }
 
 private fun toastMessage(
@@ -101,7 +140,7 @@ private fun toastMessage(
     val message = if (selectedOption == null) {
         "No has pulsado ninguna opción"
     } else {
-        "Has seleccionado $selectedOption con una puntuación de $sliderPosition"
+        "Has seleccionado $selectedOption con una puntuación de ${Math.round(sliderPosition)}"
     }
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
@@ -150,6 +189,43 @@ private fun SliderWithLabel(
             steps = 9,
             valueRange = 0f..10f
         )
-        Text(text = sliderPosition.toString())
+    }
+}
+
+
+@Composable
+private fun ChipArray(chipLabels: List<String>, context: Context) {
+    var selectedChip: String? by remember { mutableStateOf(null) }
+
+    for (label in chipLabels) {
+        var selected by remember { mutableStateOf(false) }
+        FilterChip(
+            modifier = Modifier.padding(5.dp),
+            onClick = {
+                when {
+                    selectedChip == label -> {selected = false
+                        selectedChip = null}
+                    selectedChip == null -> {selected = true
+                        selectedChip = label
+                        Toast.makeText(context, "Has seleccionado $selectedChip", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            },
+            label = {
+                Text(label)
+            },
+            selected = selected,
+            leadingIcon = if (selected) {
+                {
+                    Icon(
+                        imageVector = Icons.Filled.Done,
+                        contentDescription = "Done icon",
+                        modifier = Modifier.size(FilterChipDefaults.IconSize)
+                    )
+                }
+            } else {
+                null
+            }
+        )
     }
 }
