@@ -81,13 +81,22 @@ fun Preferences(modifier: Modifier = Modifier) {
 
             SliderWithLabel(
                 sliderPosition,
-                onValueChange = { sliderPosition = it }
+                onValueChange = { newValue ->
+                    sliderPosition = newValue
+                    selectedStar = newValue.toInt()
+                }
             )
 
-            stars(
-                selectedStar,
-                onRatingChange = {newRating -> selectedStar = newRating.toInt() }
-            )
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                stars(
+                    selectedStar,
+                    onRatingChange = { newRating ->
+                        selectedStar = newRating.toInt()
+                        sliderPosition = newRating
+                    }
+                )
+            }
+
 
             Row() {
                 ChipArray(chipLabels, context)
@@ -111,25 +120,23 @@ fun Preferences(modifier: Modifier = Modifier) {
 
 @Composable
 private fun stars(selectedStar: Int, onRatingChange: (Float) -> Unit) {
-
-    Row () {
-        for (index in 1..10) {
-            IconButton(
-                onClick = { onRatingChange(index.toFloat()) },
-                Modifier.size(35.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Star,
-                    contentDescription = "star",
-                    tint = (
-                            if (index <= selectedStar) MaterialTheme.colorScheme.tertiary
-                            else Color.Gray
-                    ),
-                )
-            }
+    for (index in 1..10) {
+        var selected by remember { mutableStateOf(false) }
+        IconButton(
+            onClick = { selected = !selected
+                onRatingChange(index.toFloat()) },
+            Modifier.size(35.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Star,
+                contentDescription = "star",
+                tint = (
+                        if (index <= selectedStar) MaterialTheme.colorScheme.tertiary
+                        else Color.Gray
+                        ),
+            )
         }
     }
-
 }
 
 private fun toastMessage(
