@@ -51,7 +51,7 @@ fun Portada(navController: NavHostController) {
                 Row {
                     Column {
                         Button(
-                            onClick = {},
+                            onClick = {navController.navigate("Games")},
                             modifier = Modifier
                                 .width(180.dp),
                             colors = ButtonDefaults.buttonColors(Pink40)
@@ -121,7 +121,7 @@ fun Portada(navController: NavHostController) {
             )
 
             Button(
-                onClick = {},
+                onClick = {navController.navigate("Games")},
                 modifier = Modifier
                     .width(180.dp),
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.tertiary)

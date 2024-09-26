@@ -21,10 +21,12 @@ class MainActivity : ComponentActivity() {
             P1_JuegosTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "Portada") {
+                    NavHost(navController = navController, startDestination = "SplashScreen") {
+                        composable("SplashScreen") { SplashScreen(navController) }
                         composable("Portada") {Portada(navController)}
                         composable("NewPlayer") {NewPlayer(Modifier.padding(innerPadding))}
                         composable("Preferences") { Preferences()}
+                        composable("Games") { Games() }
                     }
 
 //                    NewPlayer(
