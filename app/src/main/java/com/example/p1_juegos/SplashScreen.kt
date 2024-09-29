@@ -1,5 +1,6 @@
 package com.example.p1_juegos
 
+import android.graphics.Paint.Style
 import android.window.SplashScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,7 +46,7 @@ fun SplashScreen(navController: NavController) {
                 modifier = Modifier.size(100.dp)
             )
 
-            Text(text = "logo")
+            Text(text = "T2_P1")
         }
 
 

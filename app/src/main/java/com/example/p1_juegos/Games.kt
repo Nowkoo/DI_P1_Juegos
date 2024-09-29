@@ -1,13 +1,22 @@
 package com.example.p1_juegos
 
-import android.media.Image
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,10 +25,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
-data class Game(var nombre: String, var estaSeleccionada: Boolean = false, var foto: Int)
+data class Game(var nombre: String, var estaSeleccionado: Boolean = false, var foto: Int)
 
 var juegos: List<Game> = listOf(
     Game("Angry Birds", foto = R.drawable.games_angrybirds),
@@ -33,26 +43,27 @@ var juegos: List<Game> = listOf(
 
 @Composable
 fun Games() {
+    val context = LocalContext.current
 
-
-    Box() {
+    Box(Modifier.padding(20.dp).fillMaxSize()) {
 
         Column(
            Modifier.align(Alignment.TopStart)
         ) {
-            Spacer(modifier = Modifier.size(60.dp))
+            Spacer(modifier = Modifier.size(40.dp))
+            CheckboxesConFoto()
+        }
 
-            CheckboxesConFoto(
-                //Se almacenan todos los juegos y se marca y desmarca el booleano
-                onCheckedChange = { nombre, selected ->
-                for (juego in juegos) {
-                    if (juego.nombre == nombre) {
-                        juego.estaSeleccionada = selected
-                    }
-                }
-            }
-            )
-
+        FloatingActionButton(
+            onClick = {
+                ToastMessage(context)
+            },
+            Modifier
+                .align(Alignment.BottomEnd)
+                .padding(20.dp),
+            containerColor = MaterialTheme.colorScheme.tertiary
+        ) {
+            Icon(Icons.Filled.Done, "Floating action button.")
         }
     }
 }
@@ -62,35 +73,53 @@ fun Games() {
 //
 //}
 
+fun ToastMessage(context: Context) {
+    var juegosSeleccionados = listOf<Game>()
+    var texto: String
+
+    for (juego in juegos) {
+        if (juego.estaSeleccionado) {
+            juegosSeleccionados += juego
+        }
+    }
+
+    if (juegosSeleccionados.isEmpty()) {
+        texto = "No has seleccionado ningún juego"
+    } else {
+        texto = "Has seleccionado "
+        for (juego in juegosSeleccionados) {
+            when (juegosSeleccionados.indexOf(juego)) {
+                juegosSeleccionados.size - 1 -> texto += "${juego.nombre}"
+                juegosSeleccionados.size - 2 -> texto += "${juego.nombre} y "
+                else -> texto += "${juego.nombre}, "
+            }
+        }
+    }
+
+    Toast.makeText(context, texto, Toast.LENGTH_LONG).show()
+}
+
 @Composable
-fun CheckboxesConFoto(onCheckedChange: (String, Boolean) -> Unit) {
+fun CheckboxesConFoto() {
     for (juego in juegos) {
         var selected by remember { mutableStateOf(false) }
 
         Row (
+            Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
+
         ) {
             Image(
                 painter = painterResource(juego.foto),
                 contentDescription = juego.nombre,
-                modifier = Modifier.size(100.dp)
+                modifier = Modifier.size(60.dp)
             )
 
             Checkbox(
-                checked = !selected,
-                onCheckedChange = { onCheckedChange(juego.nombre, selected)
-
-//                    Alternativa? (se añaden los juegos seleccionados se borran los que no, no necesitaría almacenar el booleano)
-//                    if (selected) {
-//                        var newJuego = Game(nombre, selected, 1)
-//                        juegos += newJuego
-//                    } else {
-//                        for (juego in juegos) {
-//                            if (juego.nombre.equals(nombre))
-//                                juegos -= juego
-//                        }
-//                    }
-                }
+                checked = selected,
+                onCheckedChange = {
+                    selected = !selected
+                    juego.estaSeleccionado = selected }
             )
 
             Text(
