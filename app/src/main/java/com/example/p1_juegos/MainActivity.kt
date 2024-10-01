@@ -27,6 +27,7 @@ class MainActivity : ComponentActivity() {
                         composable("NewPlayer") {NewPlayer(Modifier.padding(innerPadding))}
                         composable("Preferences") { Preferences()}
                         composable("Games") { Games() }
+                        composable("About") { About() }
                     }
 
 //                    NewPlayer(

@@ -1,6 +1,8 @@
 package com.example.p1_juegos
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +16,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -26,7 +31,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 
 
@@ -59,7 +66,8 @@ fun NewPlayer(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(R.drawable.account),
                 contentDescription = "User",
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier
+                    .size(80.dp)
                     .weight(leftWeight)
             )
 
@@ -81,7 +89,8 @@ fun NewPlayer(modifier: Modifier = Modifier) {
             modifier = Modifier.height(20.dp)
         ) {
             Spacer(
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier
+                    .size(80.dp)
                     .weight(leftWeight)
             )
 
@@ -96,7 +105,8 @@ fun NewPlayer(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Spacer(
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier
+                    .size(80.dp)
                     .weight(leftWeight)
             )
 
@@ -114,7 +124,8 @@ fun NewPlayer(modifier: Modifier = Modifier) {
             modifier = Modifier.height(20.dp)
         ) {
             Spacer(
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier
+                    .size(80.dp)
                     .weight(leftWeight)
             )
 
@@ -131,7 +142,8 @@ fun NewPlayer(modifier: Modifier = Modifier) {
             var nickname by rememberSaveable() { mutableStateOf("") }
 
             Spacer(
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier
+                    .size(80.dp)
                     .weight(leftWeight)
             )
 
@@ -148,14 +160,16 @@ fun NewPlayer(modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Spacer(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .weight(leftWeight)
             )
 
             Image(
                 painter = painterResource(R.drawable.android),
                 contentDescription = "Android",
-                modifier = Modifier.size(130.dp)
+                modifier = Modifier
+                    .size(130.dp)
                     .weight(2f)
             )
 
@@ -178,7 +192,8 @@ fun NewPlayer(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(R.drawable.camera),
                 contentDescription = "User",
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier
+                    .size(80.dp)
                     .weight(leftWeight)
             )
 
@@ -200,19 +215,46 @@ fun NewPlayer(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(R.drawable.email),
                 contentDescription = "User",
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier
+                    .size(80.dp)
                     .weight(leftWeight)
             )
 
-            var email by rememberSaveable() { mutableStateOf("") }
+            var emailList = listOf("margomgar35@alu.edu.gva.es", "mgg35@alu.edu.gva.es", "mgg35@gmail.com")
+            var selectedEmail by rememberSaveable() { mutableStateOf("") }
+            var expanded by remember { mutableStateOf(false) }
 
             TextField(
-                value = email,
-                onValueChange = {email = it},
+                value = selectedEmail,
+                onValueChange = {selectedEmail = it},
+                enabled = false,
+                readOnly = true,
                 label = {Text("Email")},
                 singleLine = true,
-                modifier = Modifier.weight(rightWeight)
+                colors = TextFieldDefaults.colors(
+                    disabledTextColor = Color.Black
+                ),
+                modifier = Modifier
+                    .weight(rightWeight)
+                    .clickable { expanded = true }
             )
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = {expanded = false},
+                offset = DpOffset(x = -66.dp, y = -10.dp)
+
+            ) {
+                emailList.forEach { email ->
+                    DropdownMenuItem (
+                        text = { Text(text = email) },
+                        onClick = {
+                            expanded = false
+                            selectedEmail = email
+                        }
+                    )
+                }
+            }
         }
 
         Row (
