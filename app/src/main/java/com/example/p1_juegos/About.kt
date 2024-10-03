@@ -1,5 +1,6 @@
 package com.example.p1_juegos
 
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -35,22 +36,24 @@ data class Jugador(
 
 @Composable
 fun About() {
-    val context = LocalContext
+    val context = LocalContext.current
     LazyColumn (
         modifier = Modifier.padding(20.dp)
     ) {
         items(getJugadores()) { jugador ->
-            ItemJugador(jugador)
+            ItemJugador(jugador = jugador) {
+                Toast.makeText(context, it.nombre, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
 
 @Composable
-fun ItemJugador(jugador: Jugador, onItemSelected: (String) -> Unit) {
+fun ItemJugador(jugador: Jugador, onItemSelected: (Jugador) -> Unit) {
     Row (
         Modifier
             .padding(20.dp)
-            .clickable { onItemSelected(jugador.nombre) }
+            .clickable { onItemSelected(jugador) }
         ,
         verticalAlignment = Alignment.CenterVertically,
     ) {
