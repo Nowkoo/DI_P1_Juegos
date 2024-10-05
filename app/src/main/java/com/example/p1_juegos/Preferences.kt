@@ -4,6 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -110,7 +111,7 @@ fun Preferences(modifier: Modifier = Modifier) {
             },
             modifier
                 .align(Alignment.BottomEnd)
-                .padding(20.dp),
+                .padding(PaddingValues(bottom = 60.dp, end = 20.dp)),
             containerColor = MaterialTheme.colorScheme.tertiary
         ) {
             Icon(Icons.Filled.Add, "Floating action button.")
